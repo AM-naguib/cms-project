@@ -4,12 +4,19 @@ namespace App\Http\Controllers\Dash;
 
 use App\Models\Post;
 use App\Models\Year;
+use App\Models\Genre;
 use App\Models\Keyword;
 use App\Models\Quality;
 use App\Models\Category;
 use App\Models\MainName;
+use App\Models\KeywordPost;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Illuminate\Support\Facades\File;
+
 
 class PostController extends Controller
 {
@@ -18,7 +25,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view("dashboard.posts.index", compact("categories"));
+        $posts = Post::get();
+
+        return view("dashboard.posts.index", compact("posts"));
     }
 
     /**
@@ -30,8 +39,9 @@ class PostController extends Controller
         $main_name = MainName::select("id", "name")->get();
         $qualities = Quality::select("id", "name")->get();
         $keywords = Keyword::select("id", "name")->get();
+        $genres = Genre::select("id", "name")->get();
 
-        return view("dashboard.posts.create", compact("categories","main_name","qualities","keywords"));
+        return view("dashboard.posts.create", compact("categories", "main_name", "qualities", "keywords", "genres"));
 
     }
 
@@ -40,7 +50,72 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-       dd($request->all());
+        // dd($request->all());
+        $data = $request->validate([
+            "title" => "required|string|min:3",
+            "description" => "required|string|min:3",
+            "watch_urls" => "required",
+            "download_urls" => "required",
+            'category' => 'required',
+            'main_name' => 'required',
+            "genres" => "required",
+            "keywords" => "required",
+            "quality" => "required",
+            "year" => "required",
+            "episode_number" => "required",
+            'duration' => 'required',
+            "status" => "nullable",
+            "season" => "nullable",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+        ]);
+        if ($request->hasFile("image")) {
+            $directory = storage_path('app/public/uploads');
+            if (!File::exists($directory)) {
+                File::makeDirectory($directory, 0755, true);
+            }
+
+            $manager = new ImageManager(new Driver());
+            $img_name = hexdec(uniqid() . "") . "." . $request->file("image")->getClientOriginalExtension();
+            $img = $manager->read($request->file("image"));
+            $img->resize(231, 343);
+            $img->toJpeg(80)->save($directory . "/" . $img_name);
+            $url = "uploads/" . $img_name;
+            $data["image_url"] = $url;
+        }
+        $category = Category::firstOrCreate(["name" => trim($request->category), "slug" => Str::slug($request->category)]);
+        $quality = Quality::firstOrCreate(["name" => trim($request->quality), "slug" => Str::slug($request->quality)]);
+        $year = Year::firstOrCreate(["name" => trim($request->year)]);
+        $main_name = MainName::firstOrCreate(["name" => trim($request->main_name), "slug" => Str::slug($request->main_name)]);
+        $post = Post::create([
+            "title" => $request->title,
+            "slug" => Str::slug($request->title),
+            "description" => $request->description,
+            "watch_urls" => $request->watch_urls,
+            "download_urls" => $request->download_urls,
+            "category_id" => $category->id,
+            "main_name_id" => $main_name->id,
+            "quality_id" => $quality->id,
+            "year_id" => $year->id,
+            "episode_number" => $request->episode_number,
+            "duration" => $request->duration,
+            "status" => 1,
+            "image_url" => $data["image_url"] ?? null,
+        ]);
+
+        foreach ($request->keywords as $keyword) {
+            $keyword = Keyword::firstOrCreate(["name" => trim($keyword), "slug" => Str::slug($keyword)]);
+            $post->keywords()->attach($keyword->id);
+
+        }
+
+        foreach ($request->genres as $genre) {
+            $genre = Genre::firstOrCreate(["name" => trim($genre), "slug" => Str::slug($genre)]);
+            $post->genres()->attach($genre);
+        }
+
+        toastr()->success('Post Created Successfully');
+        return to_route("dashboard.posts.index");
+
     }
 
     /**
@@ -56,7 +131,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        $categories = Category::select("id", "name")->get();
+        $main_name = MainName::select("id", "name")->get();
+        $qualities = Quality::select("id", "name")->get();
+        $keywords = Keyword::select("id", "name")->get();
+        $genres = Genre::select("id", "name")->get();
+        return view("dashboard.posts.edit", compact("post", "categories", "main_name", "qualities", "keywords", "genres"));
     }
 
     /**
@@ -64,7 +144,78 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $data = $request->validate([
+            "title" => "required|string|min:3",
+            "description" => "required|string|min:3",
+            "watch_urls" => "required",
+            "download_urls" => "required",
+            'category' => 'required',
+            'main_name' => 'required',
+            "genres" => "required",
+            "keywords" => "required",
+            "quality" => "required",
+            "year" => "required",
+            "episode_number" => "required",
+            'duration' => 'required',
+            "status" => "nullable",
+            "season" => "nullable",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
+        ]);
+        if ($request->hasFile("image")) {
+            $data["image_url"] = $request->file("image")->store("uploads", "public");
+
+        }
+        $category = Category::firstOrCreate(["name" => trim($request->category), "slug" => Str::slug($request->category)]);
+        $quality = Quality::firstOrCreate(["name" => trim($request->quality), "slug" => Str::slug($request->quality)]);
+        $year = Year::firstOrCreate(["name" => trim($request->year)]);
+        $main_name = MainName::firstOrCreate(["name" => trim($request->main_name), "slug" => Str::slug($request->main_name)]);
+        $post->update([
+            "title" => $request->title,
+            "slug" => Str::slug($request->title),
+            "description" => $request->description,
+            "watch_urls" => $request->watch_urls,
+            "download_urls" => $request->download_urls,
+            "category_id" => $category->id,
+            "main_name_id" => $main_name->id,
+            "quality_id" => $quality->id,
+            "year_id" => $year->id,
+            "episode_number" => $request->episode_number,
+            "duration" => $request->duration,
+            "status" => 1,
+            "image_url" => $data["image_url"] ?? $post->image_url,
+        ]);
+        $post->keywords()->detach();
+        $keywords = [];
+        foreach ($request->keywords as $keyword) {
+            $keyword_id = Keyword::find($keyword);
+            if (!$keyword_id) {
+                $keyword = Keyword::firstOrCreate(["name" => trim($keyword), "slug" => Str::slug($keyword)]);
+                $keywords[] = $keyword->id;
+            } else {
+                $keywords[] = $keyword_id->id;
+            }
+
+        }
+
+        $post->keywords()->attach($keywords);
+
+        $post->genres()->detach();
+
+        $genres = [];
+        foreach ($request->genres as $genre) {
+            $genre_id = Genre::find($genre);
+            if (!$genre_id) {
+                $genre = Genre::firstOrCreate(["name" => trim($genre), "slug" => Str::slug($genre)]);
+                $genres[] = $genre->id;
+            } else {
+                $genres[] = $genre_id->id;
+            }
+        }
+        $post->genres()->attach($genres);
+
+        toastr()->success('Post Updated Successfully');
+        return to_route("dashboard.posts.index");
+
     }
 
     /**

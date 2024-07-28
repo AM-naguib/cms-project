@@ -4,7 +4,16 @@
         <div class="  col-12 ">
             <div class="card p-3">
                 <h1>Create Post</h1>
-                <form action="{{ route('dashboard.posts.store') }}" method="post">
+                @if ($errors->any())
+
+                    @foreach ($errors->all() as $error)
+                        <div class="alert alert-danger" role="alert">
+                            {{ $error }}
+                        </div>
+                    @endforeach
+
+                @endif
+                <form action="{{ route('dashboard.posts.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{-- <div class="form d-flex flex-column flex-sm-wrap flex-md-row"> --}}
                     <div class="form col-12 d-flex justify-content-between">
@@ -34,6 +43,10 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="mb-3 d-flex flex-column">
+                                    <label for="image" class="form-label">Upload Image</label>
+                                    <input type="file"  class="form-control" name="image" id="image">
+                                </div>
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="row">
@@ -53,7 +66,11 @@
                             <div class="row">
                                 <div class="col-md-6 col-12 mb-3 d-flex flex-column">
                                     <label for="genre" class="form-label required">Genre</label>
-                                    <input type="text" class="form-control genre" name="genre" id="genre" required>
+                                    <select id="genres" multiple="multiple" name="genres[]" class="select-form">
+                                        @foreach ($genres as $genre)
+                                            <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
@@ -82,6 +99,7 @@
                                 </div>
                             </div>
 
+
                         </div>
                     </div>
                     <div class="mb-3">
@@ -101,11 +119,11 @@
             let main_name = {!! json_encode($main_name) !!};
             let categories = {!! json_encode($categories) !!};
             let qualities = {!! json_encode($qualities) !!};
-            $('.genre').typeahead({
-                source: label.map(function(item) {
-                    return item.name;
-                })
-            });
+            // $('.genre').typeahead({
+            //     source: label.map(function(item) {
+            //         return item.name;
+            //     })
+            // });
             $('.main_name').typeahead({
                 source: main_name.map(function(item) {
                     return item.name;
@@ -122,8 +140,6 @@
                 })
             });
 
-        });
-        $(document).ready(function() {
             $('#keywords').select2({
                 tags: true,
                 tokenSeparators: [',', ' '],
@@ -141,6 +157,25 @@
                     };
                 }
             });
+            $('#genres').select2({
+                tags: true,
+                tokenSeparators: [',', ' '],
+                createTag: function(params) {
+                    var term = $.trim(params.term);
+
+                    if (term === '') {
+                        return null;
+                    }
+
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true // add additional parameters
+                    };
+                }
+            });
         });
+
+
     </script>
 @endsection
