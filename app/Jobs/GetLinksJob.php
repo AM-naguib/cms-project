@@ -36,7 +36,7 @@ class GetLinksJob implements ShouldQueue
             $mainPost->filter("body > div.Content--Wrapper > section > div.MasterLoadMore.allBlocks > ul > div > a")->each(function ($node) use (&$pageUrls) {
                 $pageUrls[] = $node->attr("href");
             });
-
+            Log::info($pageUrls);
             foreach ($pageUrls as $pageUrl) {
                 ScrapTuktuk::dispatch($pageUrl);
                 Log::info($pageUrl);
