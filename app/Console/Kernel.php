@@ -15,9 +15,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sitemap:generate')->hourly();
 
-        if(getSettings()->auto_scraping == 1){
+
             $schedule->job(new GetLinksJob())->everyMinute();
-        }
+        
 
 
     }
