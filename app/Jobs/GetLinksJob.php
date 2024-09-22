@@ -39,6 +39,8 @@ class GetLinksJob implements ShouldQueue
 
             foreach ($pageUrls as $pageUrl) {
                 ScrapTuktuk::dispatch($pageUrl);
+                Log::info($pageUrl);
+
             }
             Log::info('GetLinksJob ended');
         } catch (\Exception $e) {
