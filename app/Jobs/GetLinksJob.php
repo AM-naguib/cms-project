@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Log;
 
 class GetLinksJob implements ShouldQueue
 {
@@ -25,6 +26,7 @@ class GetLinksJob implements ShouldQueue
      */
     public function handle(): void
     {
+        Log::info('GetLinksJob started');
         try {
             $url = "https://eg.tuktuksu.cfd/recent/";
             $client = new \Goutte\Client();
@@ -34,10 +36,11 @@ class GetLinksJob implements ShouldQueue
             $mainPost->filter("body > div.Content--Wrapper > section > div.MasterLoadMore.allBlocks > ul > div > a")->each(function ($node) use (&$pageUrls) {
                 $pageUrls[] = $node->attr("href");
             });
-            
+
             foreach ($pageUrls as $pageUrl) {
                 ScrapTuktuk::dispatch($pageUrl);
             }
+            Log::info('GetLinksJob ended');
         } catch (\Exception $e) {
             \Log::error('Error in GetLinksJob: ' . $e->getMessage());
         }
