@@ -24,22 +24,45 @@ class ScraperController extends Controller
 
     public function go()
     {
-        $data = "https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-power-book-ii-ghost-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-7/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D8%AF%D9%85-%D8%A7%D9%84%D9%81%D8%A7%D8%B3%D8%AF-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-fight-night-the-million-dollar-heist-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-fight-night-the-million-dollar-heist-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-fight-night-the-million-dollar-heist-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B9%D8%AA%D9%85%D8%A9-black-out-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-9/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D9%85%D8%AD%D8%A7%D8%A9-%D8%A7%D9%84%D8%B0%D8%A7%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%8A%D8%A6%D8%A9-bad-memory-eraser-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-13/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B4%D8%B1%D9%8A%D9%83-%D8%AC%D9%8A%D8%AF-good-partner-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-14/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-how-to-die-alone-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-how-to-die-alone-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-how-to-die-alone-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-how-to-die-alone-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-in-vogue-the-90s-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-in-vogue-the-90s-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-in-vogue-the-90s-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-3/
-https://eg.tuktuksu.cfd/%D9%85%D8%B3%D9%84%D8%B3%D9%84-en-fin-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-6-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9/
+        $data = "https://www.tuktukcima.com/%d9%81%d9%8a%d9%84%d9%85-efc-2024-%d9%85%d8%aa%d8%b1%d8%ac%d9%85-%d8%a7%d9%88%d9%86-%d9%84%d8%a7%d9%8a%d9%86/
+https://www.tuktukcima.com/%D9%81%D9%8A%D9%84%D9%85-the-shade-2023-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%AD%D8%A8-%D9%81%D9%8A-%D8%A7%D9%84%D8%AC%D9%88%D8%A7%D8%B1-love-next-door-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B3%D9%86%D8%AF%D8%B1%D9%8A%D9%84%D8%A7-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A%D8%A9-%D8%B5%D8%A8%D8%A7%D8%AD%D8%A7-cinderella-at-2-am-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-10-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-kami-no-tou-ouji-no-kikan-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B9%D9%84%D9%89-%D8%AD%D8%A7%D9%81%D8%A9-%D8%A7%D9%84%D8%AD%D8%A8-in-between-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-4/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-six-silent-killings-irelands-vanishing-triangle-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-tulsa-king-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-six-silent-killings-irelands-vanishing-triangle-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1/
+https://www.tuktukcima.com/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-the-voice-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-25-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-13/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-fairy-tail-100-nen-quest-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-tsue-to-tsurugi-no-wistoria-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-from-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%84%D8%AB-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-seal-team-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%B3%D8%A7%D8%A8%D8%B9-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-8/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-%D9%88%D9%86-%D8%A8%D9%8A%D8%B3-one-piece-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1120-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D9%85%D8%AA%D9%88%D8%AD%D8%B4-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D9%83%D8%B0%D8%A8%D8%A9-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-16-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-last-king-of-the-cross-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-5/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D9%85%D8%AA%D9%88%D8%AD%D8%B4-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%81%D9%8A%D9%84%D9%85-the-keepers-of-the-5-kingdoms-2024-%D9%85%D8%AA%D8%B1%D8%AC%D9%85-%D8%A7%D9%88%D9%86-%D9%84%D8%A7%D9%8A%D9%86/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%A7%D9%84%D9%86%D9%82%D8%B7%D8%A9-%D8%A7%D9%84%D8%B9%D9%85%D9%8A%D8%A7%D8%A1-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-igry-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%A7%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-7/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-karasu-wa-aruji-wo-erabanai-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-20-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%82%D8%A7%D8%B6%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D8%AD%D8%AC%D9%8A%D9%85-the-judge-from-hell-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D9%85%D8%AD%D8%A7%D8%A9-%D8%A7%D9%84%D8%B0%D8%A7%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%8A%D8%A6%D8%A9-bad-memory-eraser-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-16-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%AD%D8%A8%D9%8A%D8%A8-%D8%A7%D9%84%D8%AD%D9%85%D8%B6-%D8%A7%D9%84%D9%86%D9%88%D9%88%D9%8A-dna-lover-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%82%D8%A7%D8%B6%D9%8A%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D8%AD%D8%AC%D9%8A%D9%85-the-judge-from-hell-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-tasogare-out-focus-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D9%8A%D8%B1%D8%A9-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-the-fable-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-24-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-senpai-wa-otokonoko-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-make-heroine-ga-oosugiru-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-atri-my-dear-moments-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D9%84%D8%AD%D9%85%D8%A9-%D8%A7%D9%84%D8%B4%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D8%A1-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-2-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D9%85%D9%84%D8%AD%D9%85%D8%A9-%D8%A7%D9%84%D8%B4%D8%AC%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D8%A1-%D8%A7%D9%84%D9%85%D9%88%D8%B3%D9%85-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-1-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-nige-jouzu-no-wakagimi-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B9%D8%AA%D9%85%D8%A9-black-out-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-tensui-no-sakuna-hime-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-12-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D8%A7%D9%86%D9%85%D9%8A-naze-boku-no-sekai-wo-daremo-oboeteinai-no-ka-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-11-%D9%85%D8%AA%D8%B1%D8%AC%D9%85%D8%A9/
+https://www.tuktukcima.com/%D9%85%D8%B3%D9%84%D8%B3%D9%84-%D8%B3%D9%86%D8%AF%D8%B1%D9%8A%D9%84%D8%A7-%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%8A%D8%A9-%D8%B5%D8%A8%D8%A7%D8%AD%D8%A7-cinderella-at-2-am-%D8%A7%D9%84%D8%AD%D9%84%D9%82%D8%A9-9/
 ";
         $urlsArray = explode("\n", $data);
         $res = [];

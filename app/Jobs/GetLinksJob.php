@@ -28,7 +28,7 @@ class GetLinksJob implements ShouldQueue
     {
         Log::info('GetLinksJob started');
         try {
-            $url = "https://eg.tuktuksu.cfd/recent/";
+            $url = "https://www.tuktukcima.com/recent/";
             $client = new \Goutte\Client();
             $mainPost = $client->request('GET', $url);
             $pageUrls = [];
