@@ -2,12 +2,13 @@
 
 namespace App\Jobs;
 
+use Log;
+
 use Illuminate\Bus\Queueable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Log;
 
 class GetLinksJob implements ShouldQueue
 {
@@ -28,23 +29,30 @@ class GetLinksJob implements ShouldQueue
     {
         Log::info('GetLinksJob started');
         try {
-            $url = "https://www.tuktukcima.com/recent/";
+            $url = getSettings()->scrapingSite->newly_url;
             $client = new \Goutte\Client();
             $mainPost = $client->request('GET', $url);
             $pageUrls = [];
 
-            $mainPost->filter("body > div.Content--Wrapper > section > div.MasterLoadMore.allBlocks > ul > div > a")->each(function ($node) use (&$pageUrls) {
+            // Collect the URLs from the post selector
+            $mainPost->filter(getSettings()->scrapingSite->post_selector)->each(function ($node) use (&$pageUrls) {
                 $pageUrls[] = $node->attr("href");
             });
-            Log::info($pageUrls);
-            foreach ($pageUrls as $pageUrl) {
-                ScrapTuktuk::dispatch($pageUrl);
-                Log::info($pageUrl);
+            
+            // Log the array of URLs as JSON
+            Log::info('Collected URLs: ' . json_encode($pageUrls));
 
+            $jobName = '\\App\\Jobs\\' . ucfirst(getSettings()->scrapingSite->site_name) . 'Job';
+
+            // Dispatch a job for each URL
+            foreach ($pageUrls as $pageUrl) {
+                $jobName::dispatch($pageUrl);
+                Log::info('Dispatched job for URL: ' . $pageUrl);
             }
+
             Log::info('GetLinksJob ended');
         } catch (\Exception $e) {
-            \Log::error('Error in GetLinksJob: ' . $e->getMessage());
+            Log::error('Error in GetLinksJob: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         }
     }
 }

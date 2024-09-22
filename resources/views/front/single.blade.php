@@ -21,9 +21,11 @@
             <div class="row">
                 <div class="col-12 col-lg-8 mx-auto my-2 text-center">
                     @if ($servers != null)
-                        @foreach ($servers as $serverName => $url)
+                    @foreach ($servers as $serverName => $url)
+
+
                             <button class="btn btn-primary btn-lg my-1"
-                                onclick="showIfram('{{ $url }}')">{{ $serverName + 1 }}</button>
+                                onclick="showIfram('{{ $url }}')">{{ $serverName . $loop->iteration }}</button>
                         @endforeach
                     @endif
                 </div>
@@ -169,7 +171,7 @@
                                             @forelse ($downServers as $key => $serverLink)
                                                 <tr>
                                                     <td>
-                                                        السيرفر رقم {{ $key + 1 }}
+                                                        السيرفر رقم {{  $loop->iteration }}
                                                     </td>
                                                     <td>
                                                         <div class="iq-button">

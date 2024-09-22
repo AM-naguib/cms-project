@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Jobs;
 
-use App\Http\Controllers\Dash\PostController;
 use Goutte\Client;
 use App\Models\Post;
 use App\Models\Year;
@@ -12,41 +11,45 @@ use App\Models\Category;
 use App\Models\MainName;
 use Illuminate\Support\Str;
 use App\Models\MainCategory;
-use Illuminate\Http\Request;
+use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use App\Http\Controllers\Dash\PostController;
 
 
-class ScraperController extends Controller
+class CinematyJob implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
-
-    public function go()
+    /**
+     * Create a new job instance.
+     */
+    public $url;
+    public function __construct($link)
     {
-        $data = "";
-        $urlsArray = explode("\n", $data);
-
-        $res = [];
-        foreach ($urlsArray as $url) {
-            $res[]=$this->addPost($url);
-        }
-
-        dd($res);
+        $this->url = $link;
     }
-    public function addPost($url = null)
+
+    /**
+     * Execute the job.
+     */
+    public function handle(): void
     {
         try {
-            $siteName = "cinematy";
+            $data = $this->cinematy($this->url);
 
-            $data = $this->$siteName($url);
             $findPost = Post::where("slug", Str::slug($data["title"][0]))->first();
             if ($findPost) {
-                return $findPost;
+                Log::info("Post already exists");
+                return;
             }
 
             $title = $data["title"][0];
-            // dd($data);
             $imgUrl = $this->imageSave($data["img_url"][0]);
             $details = $this->extractDetailsFromTitle($title);
             $slug = Str::slug($data["category"][0]);
@@ -98,56 +101,12 @@ class ScraperController extends Controller
             }
             Artisan::call('sitemap:generate');
 
-            return $post;
+            Log::info("Post Added Successfully");
         } catch (\Exception $e) {
-            // يمكنك تسجيل الخطأ هنا أو إعادته للاستفادة منه لاحقاً
-            return response()->json(['error' => $e->getMessage()], 500);
+            Log::error($e->getMessage());
         }
     }
 
-
-    function extractDetailsFromTitle($title)
-    {
-        $type = null;
-        if (strpos($title, 'مسلسل') !== false) {
-            $type = 'مسلسل';
-        } elseif (strpos($title, 'فيلم') !== false) {
-            $type = 'فيلم';
-        }
-
-        $name = null;
-        if (preg_match('/(?:مسلسل|فيلم)\s+(.+?)(?=\s+الموسم|\s+الحلقة|\s+\d+|\s+مترجمة|$)/u', $title, $matches)) {
-            $name = $matches[1];
-        }
-
-        $season = null;
-        if (preg_match('/الموسم\s+(\w+)/u', $title, $matches)) {
-            $season = $matches[1];
-        }
-
-        $episode = null;
-        if (preg_match('/الحلقة\s+(\d+)/u', $title, $matches)) {
-            $episode = $matches[1];
-        }
-
-        return [
-            'type' => $type,
-            'name' => trim($name),  // إزالة المسافات الزائدة
-            'season' => $season,
-            'episode' => $episode
-        ];
-    }
-
-
-
-
-    public function imageSave($url)
-    {
-        $imageContents = file_get_contents($url);
-        $imageName = hexdec(uniqid('')) . '.' . pathinfo($url, PATHINFO_EXTENSION);
-        Storage::put('public/uploads/' . $imageName, $imageContents);
-        return "uploads/" . $imageName;
-    }
 
     public function cinematy($url)
     {
@@ -206,63 +165,46 @@ class ScraperController extends Controller
 
     }
 
-
-
-    public function tuktukcinema($url)
+    function extractDetailsFromTitle($title)
     {
-        $selectors = [
-            "title" => "body > section.Single--Container > div > div > div.MasterSingleMeta > h1 > a",
-            "description" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.story > p",
-            "lang" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(3) > a",
-            "age" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(6) > a",
-            "year" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(2) > a",
-            "state" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(5) > a",
-            "genres" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > div > li:nth-child(2) > a",
-            "quality" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(4) > a",
-            "category" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > div > li:nth-child(1) > a",
-            "img_url" => "body > section.Single--Container > div > div > div.left > div.image > img",
-            "actors" => "body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryRight > ul > li:nth-child(9) > a",
-        ];
-        $postData = [];
-        $client = new Client();
-        $mainPost = $client->request('GET', $url);
-        $watchAndDowLink = $mainPost->filter('body > section.Single--Container > div > div > div.MasterSingleMeta > div.MediaQueryLeft > div > a')->attr("href");
-        $wat = $client->request('GET', $watchAndDowLink);
-
-        $watchServersSelector = "body > div.watch--area > div.watch--servers--list > ul > li";
-
-        $wat->filter($watchServersSelector)->each(function ($node) use (&$postData) {
-
-            $postData["watch_urls"][] = $node->attr('data-link');
-
-        });
-
-        $dowenServersSelector = "body > div.watch--area > div.watch--servers--list > div.downloads > a";
-        $wat->filter($dowenServersSelector)->each(function ($node) use (&$postData) {
-
-            $postData["download_urls"][] = $node->attr('href');
-
-        });
-        foreach ($selectors as $key => $value) {
-            $mainPost->filter($value)->each(function ($node) use (&$postData, $key) {
-                if ($node->attr("src")) {
-                    $imgUrl = $node->attr('src');
-                    $postData[$key][] = $imgUrl;
-                    // if (preg_match('/url\((.*?)\)/', $imgUrl, $matches)) {
-                    //     $postData[$key][] = trim($matches[1], '"');
-                    // }
-                } else {
-                    $postData[$key][] = $node->text();
-                }
-
-            });
+        $type = null;
+        if (strpos($title, 'مسلسل') !== false) {
+            $type = 'مسلسل';
+        } elseif (strpos($title, 'فيلم') !== false) {
+            $type = 'فيلم';
         }
-        return $postData;
+
+        $name = null;
+        if (preg_match('/(?:مسلسل|فيلم)\s+(.+?)(?=\s+الموسم|\s+الحلقة|\s+\d+|\s+مترجمة|$)/u', $title, $matches)) {
+            $name = $matches[1];
+        }
+
+        $season = null;
+        if (preg_match('/الموسم\s+(\w+)/u', $title, $matches)) {
+            $season = $matches[1];
+        }
+
+        $episode = null;
+        if (preg_match('/الحلقة\s+(\d+)/u', $title, $matches)) {
+            $episode = $matches[1];
+        }
+
+        return [
+            'type' => $type,
+            'name' => trim($name),  // إزالة المسافات الزائدة
+            'season' => $season,
+            'episode' => $episode
+        ];
     }
 
-    // public function cinematy(){
-
-    // }
 
 
+
+    public function imageSave($url)
+    {
+        $imageContents = file_get_contents($url);
+        $imageName = hexdec(uniqid('')) . '.' . pathinfo($url, PATHINFO_EXTENSION);
+        Storage::put('public/uploads/' . $imageName, $imageContents);
+        return "uploads/" . $imageName;
+    }
 }

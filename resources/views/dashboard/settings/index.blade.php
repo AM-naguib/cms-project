@@ -50,6 +50,7 @@
                                 <option @if ($settings->slide_show == 1) selected @endif value="1">ON</option>
                             </select>
                         </div>
+
                         <div class="mb-3">
                             <label for="site_favicon" class="form-label">Site Favicon</label>
                             <div class="row d-flex align-items-center ">
@@ -63,8 +64,8 @@
                                 <div class="input @if (empty($settings->site_favicon)) col-12 @else col-11 @endif">
                                     <input type="file" id="site_favicon" class="form-control" name="site_favicon">
                                     @if ($errors->has('site_favicon'))
-                                    <span class="text-danger">{{ $errors->first('site_favicon') }}</span>
-                                @endif
+                                        <span class="text-danger">{{ $errors->first('site_favicon') }}</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -117,10 +118,14 @@
     <script>
         function sitesHtml() {
             return `                            <div class="mb-3" id="scraping_site_container">
-                                <label for="scraping_site" class="form-label">Scraping Site</label>
-                                <select name="scraping_site" id="scraping_site" class="form-control">
-                                    <option @if ($settings->scraping_site == 'tuktukcinema') selected @endif value="tuktukcinema">Tuktuk
-                                        Cinema</option>
+                                <label for="scraping_site_id" class="form-label">Scraping Site</label>
+                                <select name="scraping_site_id" id="scraping_site_id" class="form-control">
+                                    @forelse ($scraping_sites as $site)
+                                    <option @if ($settings->scraping_site_id == $site->id) selected @endif value="{{ $site->id }}">{{ $site->site_name }}</option>
+
+                                    @empty
+
+                                    @endforelse
                                 </select>
                             </div>`
         }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("site_logo")->nullable();
             $table->string("site_favicon")->nullable();
             $table->boolean("auto_scraping")->nullable();
-            $table->string("scraping_site")->nullable();
+            $table->foreignId("scraping_site_id")->nullable()->constrained()->onDelete('set null');
             $table->boolean("slide_show")->nullable();
             $table->text("header_ads")->nullable();
             $table->text("footer_ads")->nullable();

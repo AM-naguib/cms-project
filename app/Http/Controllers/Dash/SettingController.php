@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dash;
 
+use App\Models\ScrapingSite;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -9,9 +10,12 @@ use App\Http\Controllers\Controller;
 class SettingController extends Controller
 {
     public function index(){
-
+        $fds = "cinematy";
+        $fds = ucfirst($fds);
+dd($fds.'Job');
         $settings = Setting::first();
-        return view("dashboard.settings.index",compact("settings"));
+        $scraping_sites = ScrapingSite::get();
+        return view("dashboard.settings.index",compact("settings","scraping_sites"));
     }
 
     public function update(Request $request){
@@ -20,7 +24,7 @@ class SettingController extends Controller
             "site_description"=>["string","nullable"],
             "site_keywords"=>["string","nullable"],
             "auto_scraping"=>["nullable"],
-            "scraping_site"=>["string","nullable"],
+            "scraping_site_id"=>["nullable","exists:scraping_sites,id"],
             "slide_show"=>["nullable","boolean"],
             "site_favicon"=>["nullable","mimes:ico"],
             "site_logo"=>["nullable","mimes:jpg,jpeg,png,html,webp"],

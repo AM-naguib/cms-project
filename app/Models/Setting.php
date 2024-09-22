@@ -10,4 +10,9 @@ class Setting extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+
+    public function scrapingSite(){
+        return $this->belongsTo(ScrapingSite::class);
+    }
 }
