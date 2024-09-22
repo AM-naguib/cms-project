@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use DateInterval;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
@@ -44,5 +45,17 @@ class Post extends Model
         }
 
         return "https://via.placeholder.com/150";
+    }
+
+
+    public function showKeywordsInsinglePost(){
+        return $this->keywords->pluck('name')->implode(', ');
+    }
+    public function getFormattedDurationAttribute()
+    {
+        $minutes = $this->duration; // Assuming 'duration' is stored in minutes
+        $interval = new DateInterval('PT' . $minutes . 'M');
+
+        return $interval->format('PT%HH%IM'); // Formatting the output
     }
 }

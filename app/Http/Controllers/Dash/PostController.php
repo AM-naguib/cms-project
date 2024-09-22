@@ -11,11 +11,14 @@ use App\Models\Category;
 use App\Models\MainName;
 use App\Models\KeywordPost;
 use Illuminate\Support\Str;
+use App\Models\MainCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\ImageManager;
+use Illuminate\Support\Facades\Artisan;
+use Intervention\Image\Drivers\Imagick\Driver;
+
 
 
 class PostController extends Controller
@@ -25,7 +28,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::get();
+        $posts = Post::orderBy("id", "desc")->get();
 
         return view("dashboard.posts.index", compact("posts"));
     }
@@ -50,7 +53,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+
         $data = $request->validate([
             "title" => "required|string|min:3",
             "description" => "required|string|min:3",
@@ -58,12 +61,12 @@ class PostController extends Controller
             "download_urls" => "required",
             'category' => 'required',
             'main_name' => 'required',
-            "genres" => "required",
-            "keywords" => "required",
-            "quality" => "required",
-            "year" => "required",
-            "episode_number" => "required",
-            'duration' => 'required',
+            "genres" => "nullable",
+            "keywords" => "nullable",
+            "quality" => "nullable",
+            "year" => "nullable",
+            "episode_number" => "nullable",
+            'duration' => 'nullable',
             "status" => "nullable",
             "season" => "nullable",
             "image" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
@@ -82,10 +85,20 @@ class PostController extends Controller
             $url = "uploads/" . $img_name;
             $data["image_url"] = $url;
         }
-        $category = Category::firstOrCreate(["name" => trim($request->category), "slug" => Str::slug($request->category)]);
-        $quality = Quality::firstOrCreate(["name" => trim($request->quality), "slug" => Str::slug($request->quality)]);
-        $year = Year::firstOrCreate(["name" => trim($request->year)]);
-        $main_name = MainName::firstOrCreate(["name" => trim($request->main_name), "slug" => Str::slug($request->main_name)]);
+        $getMainCategoryName = explode(" ", $request->category);
+        $mainCategory = MainCategory::firstOrCreate(["name" => $getMainCategoryName[0], "slug" => Str::slug($getMainCategoryName[0])]);
+
+        $category = Category::firstOrCreate(["name" => trim($request->category), "slug" => Str::slug($request->category), "main_category_id" => $mainCategory->id]);
+        if ($request->quality != null) {
+            $quality = Quality::firstOrCreate(["name" => trim($request->quality), "slug" => Str::slug($request->quality)]);
+        }
+        if ($request->year != null) {
+            $year = Year::firstOrCreate(["name" => trim($request->year), "slug" => Str::slug($request->year)]);
+        }
+        if ($request->main_name != null) {
+            $main_name = MainName::firstOrCreate(["name" => trim($request->main_name), "slug" => Str::slug($request->main_name)]);
+        }
+
         $post = Post::create([
             "title" => $request->title,
             "slug" => Str::slug($request->title),
@@ -102,17 +115,21 @@ class PostController extends Controller
             "image_url" => $data["image_url"] ?? null,
         ]);
 
-        foreach ($request->keywords as $keyword) {
-            $keyword = Keyword::firstOrCreate(["name" => trim($keyword), "slug" => Str::slug($keyword)]);
-            $post->keywords()->attach($keyword->id);
 
+        if ($request->keywords == null) {
+            $this->addDefaultKeywords($post);
+        } else {
+            foreach ($request->keywords as $keyword) {
+                $keyword = Keyword::firstOrCreate(["name" => trim($keyword), "slug" => Str::slug($keyword)]);
+                $post->keywords()->attach($keyword->id);
+            }
         }
 
         foreach ($request->genres as $genre) {
             $genre = Genre::firstOrCreate(["name" => trim($genre), "slug" => Str::slug($genre)]);
             $post->genres()->attach($genre);
         }
-
+        Artisan::call('sitemap:generate');
         toastr()->success('Post Created Successfully');
         return to_route("dashboard.posts.index");
 
@@ -224,5 +241,29 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+
+    public function addDefaultKeywords(Post $post)
+    {
+        $keywords = [
+            "مشاهدة $post->title",
+            "تحميل $post->title",
+            "مشاهده $post->title",
+            getSettings()->site_title,
+            $post->title
+        ];
+        $keywordIds = [];
+        foreach ($keywords as $keyword) {
+            $keyword_id = Keyword::find($keyword);
+            if (!$keyword_id) {
+                $keyword = Keyword::firstOrCreate(["name" => trim($keyword), "slug" => Str::slug($keyword)]);
+                $keywordIds[] = $keyword->id;
+            } else {
+                $keywordIds[] = $keyword_id->id;
+            }
+        }
+        $post->keywords()->attach($keywordIds);
+        return $post->keywords;
     }
 }

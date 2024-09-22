@@ -163,7 +163,7 @@
     </div>
 @endsection
 
-@section('js')
+{{-- @section('js')
     <script>
 function checkData(event) {
     event.preventDefault();
@@ -172,7 +172,7 @@ function checkData(event) {
     let formData = $('#formAction').serialize();
 
     $.ajax({
-        url: "{{ route('dashboard.check_data') }}",
+        // url: "{{ route('dashboard.check_data') }}",
         type: 'GET',
         data: formData + "&postUrl=" + postUrl,
         success: function(response) {
@@ -189,4 +189,4 @@ function checkData(event) {
 }
 
     </script>
-@endsection
+@endsection --}}

@@ -18,10 +18,10 @@ return new class extends Migration
             $table->text("description")->nullable();
             $table->text("watch_urls")->nullable();
             $table->text("download_urls")->nullable();
-            $table->foreignId("category_id")->constrained()->onDelete("cascade");
-            $table->foreignId("main_name_id")->constrained()->onDelete("cascade");
-            $table->foreignId("quality_id")->constrained()->onDelete("cascade");
-            $table->foreignId("year_id")->constrained()->onDelete("cascade");
+            $table->foreignId("category_id")->nullable()->default(1)->constrained()->onDelete('set null');
+            $table->foreignId("main_name_id")->nullable()->constrained()->onDelete('set null');
+            $table->foreignId("quality_id")->nullable()->constrained()->onDelete('set null');
+            $table->foreignId("year_id")->nullable()->constrained()->onDelete('set null');
             $table->integer("episode_number")->nullable();
             $table->integer("duration")->nullable();
             $table->integer("status")->nullable();

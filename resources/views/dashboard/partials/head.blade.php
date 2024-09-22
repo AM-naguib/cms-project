@@ -16,7 +16,7 @@
 
 <link href="{{ asset('dash') }}/css/app.css" rel="stylesheet">
 
-{{-- Jquery --}}
+
 
 <!-- BEGIN SETTINGS -->
 <!-- Remove this after purchasing -->
@@ -27,7 +27,6 @@
 {{-- Select2 --}}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-<!-- jQuery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 {{-- Typeahead --}}
 <link href="https://cdn.jsdelivr.net/npm/jquery-typeahead@2.11.1/dist/jquery.typeahead.min.css" rel="stylesheet">

@@ -21,54 +21,69 @@
                 posts
             </li> --}}
             <li class="sidebar-item">
-                <a data-bs-target="#categories" data-bs-toggle="collapse" class="sidebar-link collapsed">
+                <a href="{{ route('dashboard.main-categories.index') }}" data-bs-target="#main-categories" class="sidebar-link ">
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Main Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('dashboard.categories.index') }}" data-bs-target="#categories" class="sidebar-link ">
                     <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Categories</span>
                 </a>
-                <ul id="categories" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.categories.index")}}'>All Categories</a>
-                    </li>
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.categories.create")}}'>Add Category</a>
-                    </li>
-                </ul>
             </li>
+
             <li class="sidebar-item">
                 <a data-bs-target="#posts" data-bs-toggle="collapse" class="sidebar-link collapsed">
                     <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Posts</span>
                 </a>
                 <ul id="posts" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.posts.index")}}'>All Posts</a>
+                    <li class="sidebar-item"><a class='sidebar-link' href='{{ route('dashboard.posts.index') }}'>All
+                            Posts</a>
                     </li>
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.posts.create")}}'>Add Post</a>
+                    <li class="sidebar-item"><a class='sidebar-link' href='{{ route('dashboard.posts.create') }}'>Add
+                            Post</a>
                     </li>
                 </ul>
             </li>
-            <li class="sidebar-item">
+            {{-- <li class="sidebar-item">
                 <a data-bs-target="#scraping_sites" data-bs-toggle="collapse" class="sidebar-link collapsed">
-                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Scraping Sites</span>
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Scraping
+                        Sites</span>
                 </a>
                 <ul id="scraping_sites" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.scraping_sites.index")}}'>All Sites</a>
+                    <li class="sidebar-item"><a class='sidebar-link'
+                            href='{{ route('dashboard.scraping_sites.index') }}'>All Sites</a>
                     </li>
-                    <li class="sidebar-item"><a class='sidebar-link' href='{{route("dashboard.scraping_sites.create")}}'>Add Site</a>
+                    <li class="sidebar-item"><a class='sidebar-link'
+                            href='{{ route('dashboard.scraping_sites.create') }}'>Add Site</a>
                     </li>
                 </ul>
+            </li> --}}
+            <li class="sidebar-item">
+                <a href="{{ route('dashboard.years.index') }}" data-bs-target="#Years" class="sidebar-link ">
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Years</span>
+                </a>
             </li>
+            <li class="sidebar-item">
+                <a href="{{ route('dashboard.genres.index') }}" data-bs-target="#Genres" class="sidebar-link ">
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Genres</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{{ route('dashboard.keywords.index') }}" data-bs-target="#keywords" class="sidebar-link ">
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Keywords</span>
+                </a>
+            </li>
+            <li class="sidebar-item">
+                <a href="{{ route('dashboard.settings.index') }}" data-bs-target="#settings" class="sidebar-link ">
+                    <i class="align-middle" data-lucide="shopping-bag"></i> <span class="align-middle">Settings</span>
+                </a>
+            </li>
+
 
 
         </ul>
 
-        <div class="sidebar-cta">
-            <div class="sidebar-cta-content">
-                <strong class="d-inline-block mb-2">Monthly Sales Report</strong>
-                <div class="mb-3 text-sm">
-                    Your monthly sales report is ready for download!
-                </div>
 
-                <div class="d-grid">
-                    <a href="https://themes.getbootstrap.com/product/appstack-responsive-admin-template/"
-                        class="btn btn-primary" target="_blank">Download</a>
-                </div>
-            </div>
-        </div>
     </div>
 </nav>

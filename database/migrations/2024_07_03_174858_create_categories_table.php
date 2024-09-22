@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name")->unique();
             $table->string("slug")->unique();
+            $table->foreignId("main_category_id")->nullable()->default(1)->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

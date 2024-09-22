@@ -5,48 +5,46 @@
             <div class="card p-3">
                 <h1>Create Post</h1>
                 @if ($errors->any())
-
                     @foreach ($errors->all() as $error)
                         <div class="alert alert-danger" role="alert">
                             {{ $error }}
                         </div>
                     @endforeach
-
                 @endif
                 <form action="{{ route('dashboard.posts.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{-- <div class="form d-flex flex-column flex-sm-wrap flex-md-row"> --}}
                     <div class="form col-12 d-flex justify-content-between">
                         <div class="col-md-7">
-                                <div class="mb-3">
-                                    <label for="title" class="form-label required">Title</label>
-                                    <input type="text" id="title" class="form-control" name="title" required
-                                        value="{{ old('title') }}">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="description" class="form-label required">Description</label>
-                                    <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="watch_urls" class="form-label required">Watch Urls</label>
-                                    <textarea name="watch_urls" id="watch_urls" class="form-control">{{ old('watch_urls') }}</textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="download_urls" class="form-label required">Download Urls</label>
-                                    <textarea name="download_urls" id="download_urls" class="form-control">{{ old('download_urls') }}</textarea>
-                                </div>
-                                <div class="mb-3 d-flex flex-column">
-                                    <label for="keywords" class="form-label required">Keywords</label>
-                                    <select id="keywords" multiple="multiple" name="keywords[]" class="select-form">
-                                        @foreach ($keywords as $keyword)
-                                            <option value="{{ $keyword->id }}">{{ $keyword->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3 d-flex flex-column">
-                                    <label for="image" class="form-label">Upload Image</label>
-                                    <input type="file"  class="form-control" name="image" id="image">
-                                </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label required">Title</label>
+                                <input type="text" id="title" class="form-control" name="title" required
+                                    value="{{ old('title') }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label required">Description</label>
+                                <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="watch_urls" class="form-label required">Watch Urls</label>
+                                <textarea name="watch_urls" id="watch_urls" class="form-control">{{ old('watch_urls') }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="download_urls" class="form-label required">Download Urls</label>
+                                <textarea name="download_urls" id="download_urls" class="form-control">{{ old('download_urls') }}</textarea>
+                            </div>
+                            <div class="mb-3 d-flex flex-column">
+                                <label for="keywords" class="form-label required">Keywords</label>
+                                <select id="keywords" multiple="multiple" name="keywords[]" class="select-form">
+                                    @foreach ($keywords as $keyword)
+                                        <option value="{{ $keyword->id }}">{{ $keyword->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3 d-flex flex-column">
+                                <label for="image" class="form-label">Upload Image</label>
+                                <input type="file" class="form-control" name="image" id="image">
+                            </div>
                         </div>
                         <div class="col-md-4 text-center">
                             <div class="row">
@@ -113,6 +111,7 @@
 @endsection
 
 @section('js')
+
     <script>
         $(document).ready(function() {
             let label = {!! json_encode($categories) !!};
@@ -175,7 +174,5 @@
                 }
             });
         });
-
-
     </script>
 @endsection

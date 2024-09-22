@@ -9,7 +9,7 @@
                         <h1>Scraping Sites</h1>
                     </div>
                     <div class="card-body">
-                        <a href="{{ route('dashboard.categories.create') }}" class="btn btn-primary">Add New Site</a>
+                        <a href="{{ route('dashboard.scraping_sites.create') }}" class="btn btn-primary">Add New Site</a>
                         <table id="datatables-reponsive" class="table table-striped w-100">
                             <thead>
                                 <tr>
@@ -28,8 +28,12 @@
                                         <td>
                                             <a href="{{ route('dashboard.scraping_sites.edit', $site->id) }}"
                                                 class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i></a>
-                                            <button class="btn btn-danger" onclick="({{ $site->id }})"><i
-                                                    class="fa-solid fa-trash"></i></button>
+                                                <button class="btn btn-danger" onclick="$('#delete_{{$site->id}}').submit();"><i class="fa-solid fa-trash"></i></button>
+
+                                                    <form style="display: none;" action="{{route('dashboard.scraping_sites.destroy', $site->id)}}" method="POST" id="delete_{{$site->id}}">
+                                                        @csrf
+                                                        @method("delete")
+                                                    </form>
                                         </td>
                                     </tr>
                                 @empty

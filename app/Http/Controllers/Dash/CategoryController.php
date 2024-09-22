@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Dash;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use App\Models\MainCategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CategoryController extends Controller
 {
@@ -13,17 +15,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::get();
-        return view("dashboard.categories.index", compact("categories"));
+        $categories = Category::orderBy("id", "desc")->get();
+        $mainCategories = MainCategory::select("id", "name")->get();
+        return view("dashboard.categories.index", compact("categories", "mainCategories"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view("dashboard.categories.create");
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,22 +28,22 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             "name" => "required|string|min:3|unique:categories,name",
-            "slug" => "required|string|min:3|unique:categories,slug",
+            "main_category_id" => "required|exists:main_categories,id",
         ]);
-        $data["slug"] = preg_replace('/^-+|-+$/', '', preg_replace('/\s+/', '-', $request->name));
-        Category::create($data);
-        toastr()->success('Category Created Successfully');
-        return redirect()->route("dashboard.categories.index");
+        Category::create([
+            "name" => $data["name"],
+            "slug" => Str::slug($data["name"]),
+            "main_category_id" => $data["main_category_id"],
+        ]);
+
+        return response("Success", 200);
     }
 
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Category $category)
-    {
-        return view("dashboard.categories.edit", compact("category"));
+    public function show(Category $category){
+
+        return response()->json($category, 200);
     }
 
     /**
@@ -57,12 +53,15 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             "name" => "required|string|min:3|unique:categories,name," . $category->id,
-            "slug" => "required|string|min:3|unique:categories,slug," . $category->id,
+            "main_category_id" => "required|exists:main_categories,id",
         ]);
-        $data["slug"] = preg_replace('/^-+|-+$/', '', preg_replace('/\s+/', '-', $request->name));
-        $category->update($data);
-        toastr()->success('Category Updated Successfully');
-        return redirect()->route("dashboard.categories.index");
+        $category->update([
+            "name" => $data["name"],
+            "slug" => Str::slug($data["name"]),
+            "main_category_id" => $data["main_category_id"],
+        ]);
+
+        return response("Success", 200);
     }
 
     /**
@@ -71,11 +70,12 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        if(auth()->user()){
+
             $category->delete();
             return response("Success Deleted", 200);
-        }
-        return response("Unauthorized", 401);
+
     }
+
+
 
 }

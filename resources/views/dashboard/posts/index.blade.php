@@ -1,14 +1,14 @@
 @extends('dashboard.layout.app')
 @section('content')
-    <h1 class="h3 mb-3">Products</h1>
+    <h1 class="h3 mb-3">Posts</h1>
 
     <div class="card">
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-6 col-xl-4 mb-2 mb-md-0">
                     <div class="input-group input-group-search">
-                        <input type="text" class="form-control" id="datatables-products-search"
-                            placeholder="Search products…" />
+                        <input type="text" class="form-control" id="datatables-posts-search"
+                            placeholder="Search Posts" />
                         <button class="btn" type="button">
                             <i class="align-middle" data-lucide="search"></i>
                         </button>
@@ -25,7 +25,7 @@
                     </div>
                 </div>
             </div>
-            <table id="datatables-products" class="table w-100">
+            <table id="datatables-posts" class="table w-100">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -72,7 +72,7 @@
                 destroy: true,
                 responsive: true
             });
-            $("#datatables-products").DataTable({
+            $("#datatables-posts").DataTable({
           destroy: true,
           responsive: true,
           order: [[1, "asc"]],
@@ -95,15 +95,15 @@
             bottomEnd: "paging",
           },
         });
-        $("#datatables-products-check-all").click(function () {
+        $("#datatables-posts-check-all").click(function () {
           if ($(this).prop("checked")) {
             $("input[type='checkbox']").prop("checked", true);
           } else {
             $("input[type='checkbox']").prop("checked", false);
           }
         });
-        $("#datatables-products-search").keyup(function () {
-          $("#datatables-products").DataTable().search($(this).val()).draw();
+        $("#datatables-posts-search").keyup(function () {
+          $("#datatables-posts").DataTable().search($(this).val()).draw();
         });
         });
 
