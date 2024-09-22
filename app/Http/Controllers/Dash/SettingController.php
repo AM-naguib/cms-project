@@ -10,9 +10,8 @@ use App\Http\Controllers\Controller;
 class SettingController extends Controller
 {
     public function index(){
-        $fds = "cinematy";
-        $fds = ucfirst($fds);
-dd($fds.'Job');
+
+
         $settings = Setting::first();
         $scraping_sites = ScrapingSite::get();
         return view("dashboard.settings.index",compact("settings","scraping_sites"));

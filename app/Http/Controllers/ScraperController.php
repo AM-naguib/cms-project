@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Dash\PostController;
 use Goutte\Client;
 use App\Models\Post;
 use App\Models\Year;
@@ -13,14 +12,44 @@ use App\Models\MainName;
 use Illuminate\Support\Str;
 use App\Models\MainCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Dash\PostController;
 
 
 class ScraperController extends Controller
 {
 
+public function test(){
+    Log::info('GetLinksJob started');
+        try {
+            $url = getSettings()->scrapingSite->newly_url;
+            $client = new Client();
+            $mainPost = $client->request('GET', $url);
+            $pageUrls = [];
 
+            // Collect the URLs from the post selector
+            $mainPost->filter(getSettings()->scrapingSite->post_selector)->each(function ($node) use (&$pageUrls) {
+                $pageUrls[] = $node->attr("href");
+            });
+
+            // Log the array of URLs as JSON
+            Log::info('Collected URLs: ' . json_encode($pageUrls));
+
+            $jobName = '\\App\\Jobs\\' . ucfirst(getSettings()->scrapingSite->site_name) . 'Job';
+
+            // Dispatch a job for each URL
+            // foreach ($pageUrls as $pageUrl) {
+            //     // $jobName::dispatch($pageUrl);
+            //     Log::info('Dispatched job for URL: ' . $pageUrl);
+            // }
+            dd($pageUrls);
+
+        } catch (\Exception $e) {
+            Log::error('Error in GetLinksJob: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+        }
+}
 
     public function go()
     {

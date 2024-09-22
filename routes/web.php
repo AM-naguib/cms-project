@@ -182,4 +182,4 @@ Route::get("ssss", function () {
 
 
 
-Route::get("test",[ScraperController::class,"go"]);
+Route::get("test",[ScraperController::class,"test"]);
