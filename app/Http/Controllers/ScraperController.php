@@ -22,7 +22,6 @@ class ScraperController extends Controller
 {
 
 public function test(){
-    dd("dsada");
     Log::info('GetLinksJob started');
         try {
             $url = getSettings()->scrapingSite->newly_url;
