@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('scraping_sites', function (Blueprint $table) {
             $table->id();
-            $table->text("site_name")->unique();
-            $table->text("site_url")->unique();
+            $table->string("site_name", 191)->unique(); 
+            $table->string("site_url", 191)->unique();  
             $table->text("title_selector")->nullable();
             $table->text("genre_selector")->nullable();
             $table->text("keyword_selector")->nullable();
