@@ -27,30 +27,26 @@ class GetLinksJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Log::info('GetLinksJob started');
         try {
             $url = getSettings()->scrapingSite->newly_url;
             $client = new \Goutte\Client();
             $mainPost = $client->request('GET', $url);
             $pageUrls = [];
 
-            // Collect the URLs from the post selector
             $mainPost->filter(getSettings()->scrapingSite->post_selector)->each(function ($node) use (&$pageUrls) {
                 $pageUrls[] = $node->attr("href");
             });
-            
-            // Log the array of URLs as JSON
+
             Log::info('Collected URLs: ' . json_encode($pageUrls));
 
             $jobName = '\\App\\Jobs\\' . ucfirst(getSettings()->scrapingSite->site_name) . 'Job';
 
-            // Dispatch a job for each URL
             foreach ($pageUrls as $pageUrl) {
                 $jobName::dispatch($pageUrl);
                 Log::info('Dispatched job for URL: ' . $pageUrl);
             }
 
-            Log::info('GetLinksJob ended');
+
         } catch (\Exception $e) {
             Log::error('Error in GetLinksJob: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         }

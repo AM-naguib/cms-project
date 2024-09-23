@@ -1,6 +1,30 @@
 @extends('front.layout.app')
 @section('schema')
-    {!! $videoSchemaJson !!}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "{{ addslashes(str_replace('&nbsp;', '', $post->title)) }}",
+      "description": "{{ addslashes(str_replace('&nbsp;', '', $post->description)) }}",
+      "thumbnailUrl": "{{ env('APP_URL') }}/storage/{{ $post->image_url }}",
+      "uploadDate": "{{ $post->updated_at->toIso8601String() }}",
+      "contentUrl": "{{ route('front.single', $post->slug) }}",
+      "embedUrl": "{{ route('front.single', $post->slug) }}",
+      "duration": "{{ $durationInISO8601 }}",
+      "isFamilyFriendly": true,
+      "playerType": "HTML5 Flash",
+      "width": 640,
+      "height": 360,
+      "keywords": [
+        @foreach ($keywords as $keyword)
+          "{{ addslashes(str_replace('&nbsp;', '', $keyword)) }}"{!! $loop->last ? '' : ',' !!}
+        @endforeach
+      ]
+    }
+    </script>
+
+
+
 @endsection
 
 @section('title', 'مشاهدة ' . $post->title ?? '')
@@ -21,9 +45,7 @@
             <div class="row">
                 <div class="col-12 col-lg-8 mx-auto my-2 text-center">
                     @if ($servers != null)
-                    @foreach ($servers as $serverName => $url)
-
-
+                        @foreach ($servers as $serverName => $url)
                             <button class="btn btn-primary btn-lg my-1"
                                 onclick="showIfram('{{ $url }}')">{{ $serverName . $loop->iteration }}</button>
                         @endforeach
@@ -68,9 +90,11 @@
                                             <meta itemprop="name" content="ADMIN">
                                             <link itemprop="url" href="{{ $post->author_url }}">
                                         </span>
-                                        <link itemprop="thumbnailUrl" href="{{env('APP_URL')}}/storage/{{ $post->image_url }}">
+                                        <link itemprop="thumbnailUrl"
+                                            href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
                                         <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-                                            <link itemprop="url" href="{{env('APP_URL')}}/storage/{{ $post->image_url }}">
+                                            <link itemprop="url"
+                                                href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
                                             <meta itemprop="width" content="640">
                                             <meta itemprop="height" content="360">
                                         </span>
@@ -79,8 +103,10 @@
                                         <meta itemprop="width" content="640">
                                         <meta itemprop="height" content="360">
                                         <meta itemprop="isFamilyFriendly" content="True">
-                                        <meta itemprop="datePublished" content="{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d\TH:i:sP') }}">
-                                        <meta itemprop="uploadDate" content="{{ \Carbon\Carbon::parse($post->updated_at)->format('Y-m-d\TH:i:sP') }}">
+                                        <meta itemprop="datePublished"
+                                            content="{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d\TH:i:sP') }}">
+                                        <meta itemprop="uploadDate"
+                                            content="{{ \Carbon\Carbon::parse($post->updated_at)->format('Y-m-d\TH:i:sP') }}">
                                     </div>
 
                                 </div>
@@ -171,7 +197,7 @@
                                             @forelse ($downServers as $key => $serverLink)
                                                 <tr>
                                                     <td>
-                                                        السيرفر رقم {{  $loop->iteration }}
+                                                        السيرفر رقم {{ $loop->iteration }}
                                                     </td>
                                                     <td>
                                                         <div class="iq-button">
@@ -263,8 +289,8 @@
                 </div>
                 <div class="card-style-slider">
                     <div class="position-relative swiper swiper-card" data-slide="5" data-laptop="5" data-tab="2"
-                        data-mobile="2" data-mobile-sm="2" data-autoplay="false" data-loop="true" data-navigation="true"
-                        data-pagination="true">
+                        data-mobile="2" data-mobile-sm="2" data-autoplay="false" data-loop="true"
+                        data-navigation="true" data-pagination="true">
                         <ul class="p-0 swiper-wrapper m-0  list-inline">
                             @forelse ($post->category->posts->take(10) as  $cPost)
                                 <li class="swiper-slide">

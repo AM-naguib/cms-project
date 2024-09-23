@@ -1,2 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /private/
+Allow: /public/
+Sitemap: https://video.llaroza.com/sitemap.xml

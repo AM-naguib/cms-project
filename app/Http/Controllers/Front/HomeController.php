@@ -79,25 +79,25 @@ class HomeController extends Controller
         $durationInISO8601 = $this->convertMinutesToISO8601($post->duration);
 
         // تحسين إدارة الكلمات المفتاحية
-        $keywords = $post->keywords->pluck('name')->filter()->implode(', ');
+        $keywords = $post->keywords->pluck('name')->filter()->toArray();
 
-        $videoSchema = Schema::videoObject()
-            ->name($post->title)
-            ->description($post->description)
-            ->thumbnailUrl(env('APP_URL') . "/storage/" . $post->image_url)
-            ->uploadDate($post->updated_at->toIso8601String())
-            ->contentUrl(route('front.single', $post->slug))
-            ->embedUrl(route('front.single', $post->slug))
-            ->duration($durationInISO8601)
-            ->isFamilyFriendly(true)
-            ->playerType('HTML5 Flash')
-            ->width(640)
-            ->height(360)
-            ->keywords($keywords); // تأكد من أن الكلمات المفتاحية مفصولة بفواصل
+        // $videoSchema = Schema::videoObject()
+        //     ->name($post->title)
+        //     ->description($post->description)
+        //     ->thumbnailUrl(env('APP_URL') . "/storage/" . $post->image_url)
+        //     ->uploadDate($post->updated_at->toIso8601String())
+        //     ->contentUrl(route('front.single', $post->slug))
+        //     ->embedUrl(route('front.single', $post->slug))
+        //     ->duration($durationInISO8601)
+        //     ->isFamilyFriendly(true)
+        //     ->playerType('HTML5 Flash')
+        //     ->width(640)
+        //     ->height(360)
+        //     ->keywords($keywords);
 
-        $videoSchemaJson = $videoSchema->toScript();
+        // $videoSchemaJson = $videoSchema->toScript();
 
-        return view('front.single', compact('post', 'videoSchemaJson'));
+        return view('front.single', compact('post', 'keywords',"durationInISO8601"));
     }
     private function convertMinutesToISO8601($minutes)
     {

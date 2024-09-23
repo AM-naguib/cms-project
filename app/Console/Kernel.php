@@ -16,8 +16,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('sitemap:generate')->hourly();
 
 
-            $schedule->job(new GetLinksJob())->everyMinute();
-        
+        $schedule->job(new GetLinksJob())->everyThirtyMinutes();
+
 
 
     }
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -15,7 +15,8 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             AdminSeeder::class,
-            DefultNameSeeder::class
+            DefultNameSeeder::class,
+            ScrapingSitesSeeder::class
         ]);
 
         // \App\Models\User::factory()->create([
