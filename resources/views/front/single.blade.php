@@ -5,7 +5,7 @@
       "@context": "https://schema.org",
       "@type": "VideoObject",
       "name": "{{ addslashes(str_replace('&nbsp;', '', $post->title)) }}",
-      "description": "{{ addslashes(str_replace('&nbsp;', '', $post->description)) }}",
+      "description": "{{trim($post->description) }}",
       "thumbnailUrl": "{{ env('APP_URL') }}/storage/{{ $post->image_url }}",
       "uploadDate": "{{ $post->updated_at->toIso8601String() }}",
       "contentUrl": "{{ route('front.single', $post->slug) }}",

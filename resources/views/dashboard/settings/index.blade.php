@@ -84,15 +84,15 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="header_ads" class="form-label">Header Ads</label>
-                            <textarea name="header_ads" class="form-control" id="header_ads">{{ $settings->header_ads ?? '' }}</textarea>
+                            <label for="header_adss" class="form-label">Header Ads</label>
+                            <textarea name="header_ads" class="form-control" id="header_adss">{{ $settings->header_ads ?? '' }}</textarea>
                             @if ($errors->has('header_ads'))
                                 <span class="text-danger">{{ $errors->first('header_ads') }}</span>
                             @endif
                         </div>
                         <div class="mb-3">
-                            <label for="footer_ads" class="form-label">Fotter Ads</label>
-                            <textarea name="footer_ads" class="form-control" id="footer_ads">{{ $settings->footer_ads ?? '' }}</textarea>
+                            <label for="footer_adss" class="form-label">Fotter Ads</label>
+                            <textarea name="footer_ads" class="form-control" id="footer_adss">{{ $settings->footer_ads ?? '' }}</textarea>
                             @if ($errors->has('footer_ads'))
                                 <span class="text-danger">{{ $errors->first('footer_ads') }}</span>
                             @endif
