@@ -5,7 +5,7 @@
 <meta name="author" content="Bootlab">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>Default Dashboard | AppStack - Bootstrap 5 Admin &amp; Dashboard Template</title>
+<title>{{getSettings()->site_title}}</title>
 
 <link rel="canonical" href="dashboard-default-2.html" />
 <link rel="shortcut icon" href="{{ asset('dash') }}/img/favicon.ico">

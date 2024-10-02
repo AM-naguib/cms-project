@@ -16,12 +16,10 @@
                 </div>
                 <div class="col-md-6 col-xl-8">
                     <div class="text-sm-end">
-                        <button type="button" class="btn btn-light btn-lg me-2">
-                            <i data-lucide="download"></i> Export
-                        </button>
-                        <button type="button" class="btn btn-primary btn-lg">
-                            <i data-lucide="plus"></i> New Product
-                        </button>
+
+                        <a href="{{route('dashboard.posts.create')}}" class="btn btn-primary btn-lg">
+                            <i data-lucide="plus"></i> New Post
+                        </a>
                     </div>
                 </div>
             </div>
@@ -37,7 +35,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="p_tbody">
                         @forelse ($posts as $post)
                         <tr>
                             <td>{{$loop->iteration}}</td>
@@ -52,7 +50,8 @@
                             @endif</td>
                             <td>
                                 <a href="{{route('dashboard.posts.edit', $post->id)}}" class="btn btn-sm btn-warning rounded">Edit</a>
-                                <a href="{{route('dashboard.posts.destroy', $post->id)}}" class="btn btn-sm btn-danger rounded">Delete</a>
+
+                                <a onclick="deletePost({{$post->id}})" class="btn btn-sm btn-danger rounded">Delete</a>
                             </td>
                         </tr>
                         @empty
@@ -107,11 +106,11 @@
         });
         });
 
-        function deleteCategory(id) {
+        function deletePost(id) {
             let csrfToken = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
-                url: "{{ route('dashboard.categories.destroy', ':id') }}".replace(':id', id),
+                url: "{{ route('dashboard.posts.destroy', ':id') }}".replace(':id', id),
                 type: 'DELETE',
                 data: {
                     _token: csrfToken
@@ -121,6 +120,8 @@
                         icon: "success",
                         title: result
                     });
+                    $("#p_tbody").load(window.location.href + " #p_tbody > *");
+
                 },
                 error: function(x) {
 

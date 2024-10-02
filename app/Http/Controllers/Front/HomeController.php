@@ -34,12 +34,7 @@ class HomeController extends Controller
     }
 
 
-    // public function category($cat)
-    // {
-    //     $category = Category::where('slug', $cat)->first();
-    //     $posts = $category->posts()->where('status', 1)->paginate(30);
-    //     return view('front.category', compact('posts', 'category'));
-    // }
+
 
 
     public function page($page, $item)
@@ -77,25 +72,7 @@ class HomeController extends Controller
     {
         $post = Post::where('slug', $slug)->first();
         $durationInISO8601 = $this->convertMinutesToISO8601($post->duration);
-
-        // تحسين إدارة الكلمات المفتاحية
         $keywords = $post->keywords->pluck('name')->filter()->toArray();
-
-        // $videoSchema = Schema::videoObject()
-        //     ->name($post->title)
-        //     ->description($post->description)
-        //     ->thumbnailUrl(env('APP_URL') . "/storage/" . $post->image_url)
-        //     ->uploadDate($post->updated_at->toIso8601String())
-        //     ->contentUrl(route('front.single', $post->slug))
-        //     ->embedUrl(route('front.single', $post->slug))
-        //     ->duration($durationInISO8601)
-        //     ->isFamilyFriendly(true)
-        //     ->playerType('HTML5 Flash')
-        //     ->width(640)
-        //     ->height(360)
-        //     ->keywords($keywords);
-
-        // $videoSchemaJson = $videoSchema->toScript();
 
         return view('front.single', compact('post', 'keywords',"durationInISO8601"));
     }

@@ -240,7 +240,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return response("Success Deleted", 200);
     }
 
 

@@ -72,11 +72,12 @@ require __DIR__ . '/auth.php';
 Route::name("front.")->group(function () {
     Route::get("/", [HomeController::class, "index"])->name("index");
     // Route::get("index", [HomeController::class, "index"])->name("index");
+    
     Route::get("new",[HomeController::class, "new"])->name("new");
+
     Route::get("single/{slug}",[HomeController::class, "single"])->name("single");
 
     Route::get("/{page}/{item}",[HomeController::class,"page"])->name("page");
-    // Route::get("category/{cat}",[HomeController::class, "category"])->name("category");
 
 });
 
