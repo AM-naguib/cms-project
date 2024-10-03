@@ -5,7 +5,6 @@
 
     <title>{{ getSettings()->site_title }} | @yield('title')</title>
     <!-- Google Font Api KEY-->
-    <meta name="google_font_api" content="AIzaSyBG58yNdAjc20_8jAvLNSVi9E4Xhwjau_k">
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
 

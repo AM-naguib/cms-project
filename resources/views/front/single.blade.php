@@ -81,6 +81,7 @@
 
                                     <!-- Schema Markup for VideoObject -->
                                     <div itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+                                        <meta itemprop="name" content="{{ $post->title }}">
                                         <meta itemprop="contentURL" content="{{ route('front.single', $post->slug) }}">
                                         <link itemprop="url" href="{{ route('front.single', $post->slug) }}">
                                         <meta itemprop="description" content="{{ $post->description }}">
@@ -90,11 +91,9 @@
                                             <meta itemprop="name" content="ADMIN">
                                             <link itemprop="url" href="{{ $post->author_url }}">
                                         </span>
-                                        <link itemprop="thumbnailUrl"
-                                            href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
+                                        <link itemprop="thumbnailUrl" href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
                                         <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
-                                            <link itemprop="url"
-                                                href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
+                                            <link itemprop="url" href="{{ env('APP_URL') }}/storage/{{ $post->image_url }}">
                                             <meta itemprop="width" content="640">
                                             <meta itemprop="height" content="360">
                                         </span>
@@ -103,11 +102,10 @@
                                         <meta itemprop="width" content="640">
                                         <meta itemprop="height" content="360">
                                         <meta itemprop="isFamilyFriendly" content="True">
-                                        <meta itemprop="datePublished"
-                                            content="{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d\TH:i:sP') }}">
-                                        <meta itemprop="uploadDate"
-                                            content="{{ \Carbon\Carbon::parse($post->updated_at)->format('Y-m-d\TH:i:sP') }}">
+                                        <meta itemprop="datePublished" content="{{ \Carbon\Carbon::parse($post->created_at)->format('Y-m-d\TH:i:sP') }}">
+                                        <meta itemprop="uploadDate" content="{{ \Carbon\Carbon::parse($post->updated_at)->format('Y-m-d\TH:i:sP') }}">
                                     </div>
+
 
                                 </div>
                                 <ul class="p-0 mt-2 list-inline d-flex flex-wrap movie-tag">
