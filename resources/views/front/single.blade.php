@@ -125,7 +125,7 @@
                                         التصنيف:
                                     </li>
                                     <li> <a class="title"
-                                            href="{{ $post->category->slug }}">{{ $post->category->name }}</a></li>
+                                            href="{{ route('front.page', ['page' => 'category', 'item' => $post->category->slug]) }}">{{ $post->category->name }}</a></li>
 
                                 </ul>
                                 <ul class="iq-blogtag list-unstyled d-flex flex-wrap align-items-center gap-3 p-0">
@@ -134,7 +134,7 @@
                                         الكلمات المفتاحية:
                                     </li>
                                     @forelse ($post->keywords as $keyword)
-                                        <li><a class="title" href="{{ $keyword->slug }}">{{ $keyword->name }}</a><span
+                                        <li><a class="title" href="{{ route('front.page', ['page' => 'keyword', 'item' => $keyword->slug]) }}">{{ $keyword->name }}</a><span
                                                 class="text-secondary"> </span></li>
 
                                     @empty
