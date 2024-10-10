@@ -6,6 +6,15 @@
             <div class="col-md-8  col-12 mx-auto">
                 <div class="card p-3">
                     <h1>Settings</h1>
+                    @if ($errors->any())
+
+                        @foreach ($errors->all() as $error)
+                            <div class="alert alert-danger" role="alert">
+                                {{ $error }}
+                            </div>
+                        @endforeach
+
+                    @endif
                     <form action="{{ route('dashboard.settings.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
