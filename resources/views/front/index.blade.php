@@ -1,6 +1,6 @@
 @extends('front.layout.app')
 
-@section('title', 'الرئيسية')
+@section('title', getSettings()->site_title  . '| الرئيسية')
 @section('description', getSettings()->site_description ?? '')
 @section('keywords', getSettings()->site_keywords ?? '')
 @section('content')

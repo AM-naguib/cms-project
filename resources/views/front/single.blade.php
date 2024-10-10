@@ -27,7 +27,7 @@
 
 @endsection
 
-@section('title', 'مشاهدة ' . $post->title ?? '')
+@section('title', 'مشاهدة ' . $post->title . ' HD' ?? '')
 @section('description', $post->description ?? '')
 @section('keywords', $post->showKeywordsInsinglePost() ?? '')
 
