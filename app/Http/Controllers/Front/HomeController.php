@@ -71,7 +71,7 @@ class HomeController extends Controller
     public function single($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        $durationInISO8601 = $this->convertMinutesToISO8601($post->duration);
+        $durationInISO8601 = $this->convertMinutesToISO8601($post->duration ?? 150);
         $keywords = $post->keywords->pluck('name')->filter()->toArray();
 
         return view('front.single', compact('post', 'keywords',"durationInISO8601"));
