@@ -169,9 +169,9 @@
                         <div class="tab-content">
                             <div id="description-01" class="tab-pane animated fadeInUp active show" role="tabpanel">
                                 <div class="description-content">
-                                    <p>
+                                    <h2>
                                         {{ $post->description }}
-                                    </p>
+                                    </h2>
                                 </div>
                             </div>
 
