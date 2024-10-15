@@ -76,11 +76,11 @@
                         <div class="row">
                             <div class="col-md-9 col-12 mb-auto">
                                 <div class="d-block d-lg-flex align-items-center">
-                                    <h2 class="trending-text fw-bold texture-text text-uppercase my-0 fadeInLeft animated d-inline-block"
+                                    <h1 class="trending-text fw-bold texture-text text-uppercase my-0 fadeInLeft animated d-inline-block"
                                         data-animation-in="fadeInLeft" data-delay-in="0.6"
                                         style="opacity: 1; animation-delay: 0.6s">
                                         {{ $post->title }}
-                                    </h2>
+                                    </h1>
 
                                     <!-- Schema Markup for VideoObject -->
                                     <div itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
