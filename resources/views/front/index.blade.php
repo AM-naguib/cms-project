@@ -1,8 +1,31 @@
 @extends('front.layout.app')
 
-@section('title', getSettings()->site_title  . '| الرئيسية')
+@section('title', getSettings()->site_title . '| الرئيسية')
 @section('description', getSettings()->site_description ?? '')
 @section('keywords', getSettings()->site_keywords ?? '')
+@section('schema')
+    <!-- Schema Meta Data -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "{{ getSettings()->site_title }}",
+            "url": "{{ url()->current() }}", 
+            "description": "{{ getSettings()->site_description }}",
+            "sameAs": [
+                "https://www.facebook.com/اسم_صفحتك",
+                "https://www.twitter.com/اسم_حسابك"
+            ],
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": "{{ url('/search?q={search_term_string}') }}",
+                "query-input": "required name=search_term_string"
+            }
+        }
+        </script>
+
+
+@endsection
 @section('content')
 
     <section class="banner-container">
@@ -17,10 +40,10 @@
                             <div class="shows-content h-100">
                                 <div class="row align-items-center h-100">
                                     <div class="col-lg-7 col-md-12">
-                                        <h1 class="texture-text big-font letter-spacing-1 line-count-1 text-uppercase RightAnimate-two"
+                                        <h3 class="texture-text big-font letter-spacing-1 line-count-1 text-uppercase RightAnimate-two"
                                             data-animation-in="fadeInLeft" data-delay-in="0.6">
                                             {{ $post->title }}
-                                        </h1>
+                                        </h3>
                                         <div class="flex-wrap align-items-center fadeInLeft animated"
                                             data-animation-in="fadeInLeft" style="opacity: 1;">
                                             <div class="slider-ratting d-flex align-items-center gap-3">
@@ -114,14 +137,14 @@
 
     @if (getSettings()->slide_show == 1)
         @forelse ($mainCategories as $mainCategory)
-        @if ($mainCategory->latestPosts->count() <= 0)
-            @continue
-        @endif
+            @if ($mainCategory->latestPosts->count() <= 0)
+                @continue
+            @endif
             <section class="recommended-block">
                 <div class="container-fluid">
                     <div class="overflow-hidden">
                         <div class="d-flex align-items-center justify-content-between px-3 my-4">
-                            <h5 class="main-title text-capitalize mb-0">احدث ال{{ $mainCategory->name }}</h5>
+                            <h2 class="main-title text-capitalize mb-0 fs-3">احدث ال{{ $mainCategory->name }}</h2>
 
                         </div>
                         <div class="card-style-slider">

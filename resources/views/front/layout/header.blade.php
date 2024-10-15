@@ -187,11 +187,7 @@
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end dropdown-user border-0 p-0 m-0"
                                     aria-labelledby="navbarDropdown">
-                                    <li class="user-info d-flex align-items-center gap-3 mb-3">
-                                        <img src="{{ asset('front/new') }}/images/user/user1.html" class="img-fluid"
-                                            alt="" loading="lazy">
-                                        <span class="font-size-14 fw-500 text-capitalize text-white">Jenny</span>
-                                    </li>
+
                                     <li>
                                         <a href="playlist.html" class="iq-sub-card d-flex align-items-center gap-3">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

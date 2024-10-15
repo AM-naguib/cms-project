@@ -8,6 +8,14 @@
     <meta name="description" content="@yield('description')">
     <meta name="keywords" content="@yield('keywords')">
 
+  
+
+    <!-- OpenGraph Meta Tags -->
+    <meta property="og:title" content="@yield('og_title', 'العنوان الافتراضي للمحتوى')" />
+    <meta property="og:description" content="@yield('og_description', 'وصف افتراضي للمحتوى')" />
+    <meta property="og:image" content="@yield('og_image', asset('path/to/default-image.jpg'))" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" /> <!-- أو 'article' إذا كانت الصفحة مقال -->
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ env('APP_URL') }}/storage/{{ getSettings()->site_favicon }}" />
 

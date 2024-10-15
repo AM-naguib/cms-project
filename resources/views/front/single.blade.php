@@ -30,6 +30,9 @@
 @section('title', 'مشاهدة ' . $post->title . ' HD' ?? '')
 @section('description', $post->description ?? '')
 @section('keywords', $post->showKeywordsInsinglePost() ?? '')
+@section('og_title', 'مشاهدة ' . $post->title . ' HD' ?? '')
+@section('og_description', $post->description ?? '')
+@section('og_image', "{{ env('APP_URL') }}/storage/{{ $post->image_url }}")
 
 @section('content')
     <!-- Banner Start -->
