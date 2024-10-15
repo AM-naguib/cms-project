@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('sitemap:generate')->hourly();
+        $schedule->command('generate:sitemap')->hourly();
 
 
         $schedule->job(new GetLinksJob())->everyThirtyMinutes();

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <sitemap>
-        <loc>http://127.0.0.1:8000/sitemap-categories.xml</loc>
-            <lastmod>2024-10-15T19:36:43+00:00</lastmod>
-    </sitemap>
-    <sitemap>
-        <loc>http://127.0.0.1:8000/sitemap-posts-page-1.xml</loc>
-            <lastmod>2024-10-15T19:36:43+00:00</lastmod>
-    </sitemap>
-    <sitemap>
-        <loc>http://127.0.0.1:8000/sitemap-posts-page-2.xml</loc>
-            <lastmod>2024-10-15T19:36:43+00:00</lastmod>
-    </sitemap>
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://127.0.0.1:8000/sitemaps/sitemap_categories_page_1.xml</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/sitemaps/sitemap_genres_page_1.xml</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/sitemaps/sitemap_posts_page_1.xml</loc>
+    
+            </url>
+</urlset>

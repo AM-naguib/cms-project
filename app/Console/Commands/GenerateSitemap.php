@@ -2,81 +2,93 @@
 
 namespace App\Console\Commands;
 
+use Log;
+use Carbon\Carbon;
 use App\Models\Post;
+use App\Models\Genre;
 use App\Models\Category;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
 use Illuminate\Console\Command;
-use Spatie\Sitemap\SitemapIndex;
 
-class GenerateSitemap extends Command
+class GenerateSiteMap extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'sitemap:generate';
+    protected $signature = 'generate:sitemap';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Automatically Generate an XML Sitemap';
+    protected $description = 'Command description';
 
     /**
      * Execute the console command.
      */
-public function handle()
-{
-    // إنشاء خريطة الموقع الرئيسية
-    $sitemapIndex = SitemapIndex::create();
+    public function handle()
+    {
+        $chunkSize = 1000;
 
-    // إنشاء خريطة الموقع للتصنيفات
-    $categoriesSitemap = Sitemap::create();
-    Category::all()->each(function ($category) use ($categoriesSitemap) {
-        $categoriesSitemap->add(
-            Url::create("/category/{$category->slug}")
-                ->setPriority(0.8)
-                ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
-        );
-    });
-    $categoriesSitemap->writeToFile(public_path('sitemap-categories.xml'));
+        $categorySitemapFiles = [];
+        $genreSitemapFiles = [];
+        $postSitemapFiles = [];
 
-    // إضافة خريطة الموقع للتصنيفات إلى الخريطة الرئيسية
-    $sitemapIndex->add('/sitemap-categories.xml');
+        if (!file_exists(public_path('sitemaps'))) {
+            mkdir(public_path('sitemaps'), 0777, true);
+        }
 
-    // إنشاء خريطة الموقع للمشاركات
-    $postsPerPage = 100;
-    $totalPosts = Post::count();
-    $totalPages = ceil($totalPosts / $postsPerPage);
-
-    for ($page = 1; $page <= $totalPages; $page++) {
-        $postsSitemap = Sitemap::create();
-
-        // جلب المشاركات للصفحة الحالية
-        $posts = Post::skip(($page - 1) * $postsPerPage)
-            ->take($postsPerPage)
-            ->get();
-
-        // إضافة روابط المشاركات إلى خريطة الموقع
-        $posts->each(function (Post $post) use ($postsSitemap) {
-            $postsSitemap->add(
-                Url::create("/single/{$post->slug}")
-                    ->setPriority(0.9)
-                    ->setChangeFrequency(Url::CHANGE_FREQUENCY_HOURLY)
-            );
+        // إنشاء ملفات سايت ماب للتصنيفات (Categories)
+        Category::chunk($chunkSize, function ($categories, $page) use (&$categorySitemapFiles) {
+            $categorySitemap = Sitemap::create();
+            foreach ($categories as $category) {
+                $categorySitemap->add(url('/category/' . $category->slug));
+            }
+            $sitemapFilePath = public_path('sitemaps/sitemap_categories_page_' . $page . '.xml');
+            $categorySitemap->writeToFile($sitemapFilePath);
+            $categorySitemapFiles[] = url('/sitemaps/sitemap_categories_page_' . $page . '.xml');
         });
 
-        // حفظ خريطة الموقع للمشاركات إلى ملف
-        $postsSitemap->writeToFile(public_path("sitemap-posts-page-{$page}.xml"));
+        // إنشاء ملفات سايت ماب للأنواع (Genres)
+        Genre::chunk($chunkSize, function ($genres, $page) use (&$genreSitemapFiles) {
+            $genreSitemap = Sitemap::create();
+            foreach ($genres as $genre) {
+                $genreSitemap->add(url('/genre/' . $genre->slug));
+            }
+            $sitemapFilePath = public_path('sitemaps/sitemap_genres_page_' . $page . '.xml');
+            $genreSitemap->writeToFile($sitemapFilePath);
+            $genreSitemapFiles[] = url('/sitemaps/sitemap_genres_page_' . $page . '.xml');
+        });
 
-        // إضافة كل ملف خريطة موقع للمشاركات إلى الخريطة الرئيسية
-        $sitemapIndex->add("/sitemap-posts-page-{$page}.xml");
+        // إنشاء ملفات سايت ماب للمقالات (Posts)
+        Post::chunk($chunkSize, function ($posts, $page) use (&$postSitemapFiles) {
+            $postSitemap = Sitemap::create();
+            foreach ($posts as $post) {
+                $postSitemap->add(
+                    Url::create(url('/single/' . $post->slug))
+                        ->setLastModificationDate(Carbon::create($post->updated_at))
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_YEARLY)
+                        ->setPriority(1)
+                );
+            }
+            $sitemapFilePath = public_path('sitemaps/sitemap_posts_page_' . $page . '.xml');
+            $postSitemap->writeToFile($sitemapFilePath);
+            $postSitemapFiles[] = url('/sitemaps/sitemap_posts_page_' . $page . '.xml');
+        });
+
+        // دمج جميع ملفات السايت ماب في الملف الرئيسي
+        $mainSitemap = Sitemap::create();
+
+        foreach (array_merge($categorySitemapFiles, $genreSitemapFiles, $postSitemapFiles) as $file) {
+            $mainSitemap->add($file);
+        }
+
+        $mainSitemap->writeToFile(public_path('sitemap.xml'));
+
+        Log::info("Sitemap generated successfully at " . date('Y-m-d H:i:s'));
     }
-
-    // حفظ خريطة الموقع الرئيسية إلى الملف
-    $sitemapIndex->writeToFile(public_path('sitemap.xml'));
-}
 }
