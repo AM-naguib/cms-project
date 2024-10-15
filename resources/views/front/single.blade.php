@@ -58,8 +58,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="pt-0 mx-auto">
-                        <iframe id="watchIframe" src="{{ $firstServer ?? '' }}" scrolling="no" width="100%"
-                            height="600px"></iframe>
+                        <video id="watchIframe" src="{{ $firstServer ?? '' }}" scrolling="no" width="100%"
+                            height="600px"></video>
                     </div>
                 </div>
             </div>
